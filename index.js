@@ -29,10 +29,12 @@ app.get("/api/Currentdate", function (req, res) {
 
 app.get("/api/:date", function (req, res) {
   let calcDate = isNaN(req.params.date) ? req.params.date : parseInt(req.params.date)
-  let unixDate = new Date(calcDate).getTime()
-  res.json({unix: `${unixDate}`, utc: `${new Date(calcDate).toUTCString()}`});
+  let currentDate = new Date(calcDate)
+  let errorResponse = {"error": `${currentDate}`}
+  let validResponse = {"unix": `${unixDate.getTime()}`, "utc": `${new Date(calcDate).toUTCString()}`}
+  console.log(currentDate)
+  currentDate == "Invalid Date" ? res.json(errorResponse) : res.json(validResponse); 
 });
-
 // listen for requests :)
 const listener = app.listen(process.env.PORT, function () {
   console.log('Your app is listening on port ' + listener.address().port);
